@@ -1,64 +1,115 @@
 package code.test;
+
+import java.util.*;
+
 //당구연습
 public class codeTest23 {
+
     public int[] solution(int m, int n, int startX, int startY, int[][] balls) {
-        int[] answer = new int[balls.length];
+
+        int[] results = new int[balls.length];
+        List<Integer> ballList = new ArrayList<>();
 
         for (int i = 0; i < balls.length; i++) {
-            int targetX = balls[i][0];
-            int targetY = balls[i][1];
+            int ballX = balls[i][0];
+            int ballY = balls[i][1];
 
-            int now = 0;
-            int result = Integer.MAX_VALUE;
-
-            // 원 쿠션이므로
-            // x축의 경우
-            // 시작 지점에서부터 0 또는 m까지 이동 거리 + 0 또는 m에서부터 타겟까지의 거리를 제곱해야 하고
-            // y축의 경우
-            // 시작 지점에서부터 0 또는 n까지 이동 거리 + 0 또는 n에서부터 타겟까지의 거리를 제곱해야 함
-
-
-            // 좌측으로 이동할 경우
-            // x축의 0에서 startX까지의 거리
-            // x축의 0에서 targetX까지의 거리
-            // 이 두가지 거리를 더해서 제곱을 해줘야 함
-            if (!(startY == targetY && startX >= targetX)) {
-                now = distance(startX, startY, targetX * (-1), targetY);
-                result = Math.min(now, result);
+            // 1) 좌벽
+            int leftDist = leftSideBoard(startX, startY, ballX, ballY);
+            // 만약 '벽까지 가는 경로'에 공이 먼저 있으면 배제(-1)
+            if (!isCollideBeforeWall(startX, startY, ballX, ballY,
+                    -ballX, ballY)) {
+                ballList.add(leftDist);
+            }
+            // 2) 우벽
+            int rightDist = rightSideBoard(startX, startY, ballX, ballY, m);
+            if (!isCollideBeforeWall(startX, startY, ballX, ballY,
+                    2*m - ballX, ballY)) {
+                ballList.add(rightDist);
             }
 
-            // 우측으로 이동할 경우
-            // startX에서 m까지의 거리
-            // m에서 targetX까지의 거리
-            // 이 두가지 거리를 더해서 제곱을 해줘야 함
-            if (!(startY == targetY && startX <= targetX)) {
-                now = distance(startX, startY, m + (m - targetX), targetY);
-                result = Math.min(now, result);
+            // 3) 상벽
+            int upDist = upperSideBoard(startX, startY, ballX, ballY);
+            if (!isCollideBeforeWall(startX, startY, ballX, ballY,
+                    ballX, 2*n - ballY)) {
+                ballList.add(upDist);
             }
 
-            // 상
-            if (!(startX == targetX && startY <= targetY)) {
-                now = distance(startX, startY, targetX, n + (n - targetY));
-                result = Math.min(now, result);
+            // 4) 하벽
+            int downDist = bottomSideBoard(startX, startY, ballX, ballY, n);
+            if (!isCollideBeforeWall(startX, startY, ballX, ballY,
+                    ballX, -ballY)) {
+                ballList.add(downDist);
             }
 
-            // 하
-            if (!(startX == targetX && startY >= targetY)) {
-                now = distance(startX, startY, targetX, targetY * (-1));
-                result = Math.min(now, result);
-            }
-
-            answer[i] = result;
+            Integer min = ballList.isEmpty()? 0 : Collections.min(ballList);
+            results[i] = min;
+            ballList.clear();
         }
-
-        return answer;
+        return results;
     }
 
-    // 거리를 구하는 공식
-    // Math.sqrt(Math.pow((maxX - minX)) + Math.pow((maxY - minY)))
-    // 여기서는 거리에 제곱을 한다 했으므로
-    // Math.pow((maxX - minX)) + Math.pow((maxY - minY))
-    public int distance(int sx, int sy, int tx, int ty) {
-        return (int) (Math.pow(sx - tx, 2) + Math.pow(sy - ty, 2));
+    //좌변 거리 구하는 메서드
+    public int leftSideBoard(int startX, int startY, int ballX, int ballY) {
+        int side = square(startX + ballX);
+        if (startY > ballY) {
+            return side + square(startY - ballY);
+        }
+        return side + square(ballY - startY);
+    }
+
+    //우변 거리 구하는 메서드
+    public int rightSideBoard(int startX, int startY, int ballX, int ballY, int m) {
+        int side = square((m - startX) + (m - ballX));
+        if (startY > ballY) {
+            return side + square(startY - ballY);
+        }
+        return side + square(ballY - startY);
+    }
+
+    //상변 거리 구하는 메서드
+    public int upperSideBoard(int startX, int startY, int ballX, int ballY) {
+        int side = square(startY + ballY);
+        if (startX > ballX) {
+            return side + square(startX - ballX);
+        }
+        return side + square(ballX - startX);
+    }
+
+    //하변 거리 구하는 메서드
+    public int bottomSideBoard(int startX, int startY, int ballX, int ballY, int n) {
+        int side = (square((n - startY) + (n - ballY)));
+        if (startX > ballX) {
+            return side + square(startX - ballX);
+        }
+        return side + square(ballX - startX);
+    }
+
+    //제곱 구해주는 메서드
+    public int square(int num) {
+        return num * num;
+    }
+
+    //쳐야할 길에 공이 존재하는지 여부 확인 메서드
+    private boolean isCollideBeforeWall(int sX, int sY,
+                                        int bX, int bY,
+                                        int refX, int refY) {
+        // 1) 일직선인지 확인
+        int cross1 = (refX - sX) * (bY - sY);
+        int cross2 = (refY - sY) * (bX - sX);
+        if (cross1 != cross2) {
+            return false;
+        }
+
+        // 2) 공이 길에 있는지 확인
+        if (isBetween(sX, refX, bX) && isBetween(sY, refY, bY)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isBetween(int a, int b, int c) {
+        return (c >= Math.min(a, b) && c <= Math.max(a, b));
     }
 }
