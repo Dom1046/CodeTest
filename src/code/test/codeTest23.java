@@ -55,12 +55,18 @@ public class codeTest23 {
                                         int ballX, int ballY,
                                         int refX, int refY) {
 
-        // 1) 세 점이 일직선인지 확인 (벡터외적의 성질 이용)
-        int cross1 = (refX - startX) * (ballY - startY);
-        int cross2 = (refY - startY) * (ballX - startX);
+        // 1-1) 세 점이 일직선인지 확인 (기울기 성질 이용)
+        double cross1 = (double) (ballY - startY) / (ballX - startX);
+        double cross2 = (double) (refY - ballY) / (refX - ballX);
         if (cross1 != cross2) {
             return false; // 일직선이 아님
         }
+//        // 1-2) 세 점이 일직선인지 확인 (벡터외적의 성질 이용)
+//        int cross1 = (refX - startX) * (ballY - startY);
+//        int cross2 = (refY - startY) * (ballX - startX);
+//        if (cross1 != cross2) {
+//            return false; // 일직선이 아님
+//        }
 
         // 2) 목표 공이 경로 중간에 있는지 확인 -> 중간에 없는 경우에는 문제가 없기 때문에 문제없다고 해야함.
         if (isBetween(startX, refX, ballX) && isBetween(startY, refY, ballY)) {
