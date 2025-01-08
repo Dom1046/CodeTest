@@ -3,7 +3,6 @@ package code.test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 //푸드파이터
 public class CoderTest25 {
     public String solution(int[] food) {
