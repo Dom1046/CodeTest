@@ -1,8 +1,20 @@
 package code.test;
 
 import java.util.Arrays;
-import java.util.List;
 
-//숫자 문자열과 영단어
+//옹알이
 public class CodeTest27 {
+    public int solution(String[] babbling) {
+        int answer = 0;
+        String[] dictionary = {"aya", "ye", "woo", "ma"};
+        for (String bab : babbling) {
+            for (String word : dictionary) {
+                bab = bab.replace(word, " ");
+            }
+            if (bab.trim().isEmpty()) {
+                answer++;
+            }
+        }
+        return answer;
+    }
 }
