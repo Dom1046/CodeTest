@@ -5,6 +5,7 @@ class Solution {
         int cnt = 0;
         Queue<Integer> queue = new LinkedList<>();
         plusNums(nums, queue);
+        
         // 큐가 빌 때까지 poll()을 사용
         while (!queue.isEmpty()) {
             if (checkNum(queue.poll())) {
@@ -13,7 +14,7 @@ class Solution {
         }
         return cnt;
     }
-
+    
     public Queue<Integer> plusNums(int[] nums, Queue<Integer> queue) {
         for (int i = 0; i < nums.length - 2; i++) {
             for (int j = i + 1; j < nums.length - 1; j++) {
