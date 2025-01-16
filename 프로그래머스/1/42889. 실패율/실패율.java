@@ -18,7 +18,7 @@ class Solution {
             }
             // 실패율 = 실패 플레이어 수 / 총 플레이어 수
             failure[i - 1][0] = i;
-            failure[i - 1][1] = cnt/(double)players;
+            failure[i - 1][1] = (double)cnt/players;
             //변수 최신화
             players = players - cnt;
             cnt = 0;
