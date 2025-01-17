@@ -2,7 +2,7 @@ package code.test;
 
 public class CodeTest32 {
     public int[] solution(int N, int[] stages) {
-        return sortFailure(getFailure(N, stages), N);
+        return sortFailure(getFailure(N, stages));
     }
 
     //실패율 구하기
@@ -29,8 +29,8 @@ public class CodeTest32 {
     }
 
     //실패율 내림차순 정렬 (실패율 같을 시 -> 스테이지 번호 오름차순으로)
-    public int[] sortFailure(double[][] failure, int N){
-        int[] answer = new int[N];
+    public int[] sortFailure(double[][] failure){
+        int[] answer = new int[failure.length];
         for (int i = 0; i < failure.length; i++) {
             for (int j = i + 1; j < failure.length; j++) {
                 //실패율 큰게 앞으로
@@ -49,6 +49,7 @@ public class CodeTest32 {
                 }
             }
         }
+        //일차 배열로 스테이지 번호 옮기기
         for (int i = 0; i < answer.length; i++) {
             answer[i] = (int)failure[i][0];
         }
