@@ -1,51 +1,64 @@
-import java.util.Scanner;
+import java.util.*;
 
-public class Main {
-    public static void main(String[] args) {
+class Main{
+   public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        String[] nums = new String[3];
 
-        // 한 줄에 공백으로 구분된 3개의 정수 입력
-        int num1 = sc.nextInt();
-        int num2 = sc.nextInt();
-        int num3 = sc.nextInt();
+        for (int i = 0; i < 3; i++){
+            //하위 4자리 구하기
+            nums[i] = getDigit4(sc.nextInt());
 
-        // 각 정수의 하위 4자리(2진수) 구하기
-        String bin1 = getDigit4(num1);
-        String bin2 = getDigit4(num2);
-        String bin3 = getDigit4(num3);
-
-        // 세 개의 이진 문자열을 순서대로 이어 붙이기
-        String combined = bin1 + bin2 + bin3;
-
-        // 이진수 -> 십진수로 변환
-        int answerInt = Integer.parseInt(combined, 2);
-
-        // 네 자리로 맞추기 (앞에 0 추가)
-        String answer = addZero(answerInt);
-
-        // 결과 출력
-        System.out.println(answer);
-    }
-
-    /**
-     * 정수 num의 하위 4비트를 2진수 문자열(4자리)로 반환
-     */
-    public static String getDigit4(int num) {
-        String binary = Integer.toBinaryString(num);
-        // 길이가 4 미만이면 0으로 앞을 채우고, 4 이상이면 뒤 4자리만 추출
-        if (binary.length() < 4) {
-            binary = String.format("%4s", binary).replace(' ', '0');
-        } else {
-            binary = binary.substring(binary.length() - 4);
+            if (i == 2) {
+                //세 비밀번호 합치기
+                String answer = attachNums(nums);
+                //이진수 십진수로 바꾸기
+                int answerInt = Integer.parseInt(answer, 2);
+                //비밀번호 자릿수 구하기
+                int digitCnt = getDigitCnt(answerInt);
+                //비밀번호 앞에 0 붙이기
+                System.out.println(addZero(digitCnt, answerInt));
+            }
         }
-        return binary;
     }
-
-    /**
-     * 십진수 숫자를 받아서 항상 4자리로 맞춰주는 함수 (앞에 0 채움)
-     */
-    public static String addZero(int answer) {
-        // 예: answer=103 → "0103", answer=5 → "0005"
-        return String.format("%04d", answer);
+    //문자열로 변경 -> 하위 4자릿수 구하기
+    public static String getDigit4(int num){
+        String numString = Integer.toBinaryString(num);
+        if (numString.length() > 3){
+            return numString.substring(numString.length() -4);
+        }else {
+            if (numString.length() == 3){
+                return "0" + numString;
+            }else if (numString.length() == 2){
+                return "00" + numString;
+            }else {
+                return "000" + numString;
+            }
+        }
+    }
+    //세 비밀번호 합치기
+    public static String attachNums(String[] nums){
+        return nums[0] + nums[1] + nums[2];
+    }
+    //비밀번호 자릿수구하기
+    public static int getDigitCnt(int answer){
+        int cnt = 0;
+        if (answer == 0){
+            return 1;
+        }
+        while(answer != 0){
+            answer = answer / 10;
+            cnt++;
+        }
+        return cnt;
+    }
+    //앞에 0넣어주기
+    public static String addZero(int answersNum, int answer){
+        StringBuilder st = new StringBuilder();
+        st.append(answer);
+        for (int i = 0; i < 4 - answersNum; i++){
+            st.insert(0, "0");
+        }
+        return st.toString();
     }
 }
