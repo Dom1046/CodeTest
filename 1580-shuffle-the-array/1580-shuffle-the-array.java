@@ -1,11 +1,20 @@
 class Solution {
     public int[] shuffle(int[] nums, int n) {
-        int[] result = new int[2 * n];
-        int index = 0;
-        for (int i = 0; i < n; i++) {
-            result[index++] = nums[i];
-            result[index++] = nums[i + n];
+        List<Integer> listA = new ArrayList<>();
+        List<Integer> listB = new ArrayList<>();
+        List<Integer> listC = new ArrayList<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (i < n) {
+                listA.add(nums[i]);
+            } else {
+                listB.add(nums[i]);
+            }
         }
-        return result;
+        for (int i = 0; i < listA.size(); i++) {
+            listC.add(listA.get(i));
+            listC.add(listB.get(i));
+        }
+        return listC.stream().mapToInt(i -> i).toArray();
     }
 }
