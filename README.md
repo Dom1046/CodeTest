@@ -9,5 +9,10 @@
 ## Math
 |  |
 | ------- |
+| [1920-determine-color-of-a-chessboard-square](https://github.com/Dom1046/CodeTest/tree/master/1920-determine-color-of-a-chessboard-square) |
 | [2812-find-the-maximum-achievable-number](https://github.com/Dom1046/CodeTest/tree/master/2812-find-the-maximum-achievable-number) |
+## String
+|  |
+| ------- |
+| [1920-determine-color-of-a-chessboard-square](https://github.com/Dom1046/CodeTest/tree/master/1920-determine-color-of-a-chessboard-square) |
 <!---LeetCode Topics End-->
