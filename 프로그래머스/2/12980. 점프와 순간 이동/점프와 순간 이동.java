@@ -8,8 +8,6 @@ public class Solution {
             else {
                 n-=1;
                 ans++;
-                if (n == 0) break;
-                n/=2;
             }
         }
         return ans;
