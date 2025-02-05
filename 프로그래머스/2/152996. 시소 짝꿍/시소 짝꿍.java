@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 class Solution {
     public long solution(int[] weights) {
         long answer = 0;
@@ -8,7 +9,8 @@ class Solution {
         //ex) map = { (100, 5), (200, 6), (150, 7) }
         Map<Integer, Long> countMap = new HashMap<>();
         for (int weight : weights) {
-            // 없다면, 0 저장, 존재한다면 +1
+            // 없다면 : 0 + 1
+            // 존재 : 존재값 +1
             countMap.put(weight, countMap.getOrDefault(weight, 0L) + 1);
         }
 
@@ -30,12 +32,11 @@ class Solution {
 
                 int targetWeight = (int) (weightSon / mother);
 
-                
                 // 대상 몸무게가 정수가 아닌 경우 스킵
                 if (weightSon % mother != 0) {
                     continue;
                 }
-                
+
                 // 대상 몸무게가 존재하지 않으면 스킵
                 if (!countMap.containsKey(targetWeight)) continue;
 
