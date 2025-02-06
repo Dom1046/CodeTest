@@ -5,7 +5,7 @@ class Solution {
 public int solution(int cacheSize, String[] cities) {
 
         int answer = 0;
-        //큐에 넣기 -> 순차적으로 빠짐
+        //큐에 넣기 -> 순차적으로 빠짐 FIFO
         Queue<String> queue = new LinkedList<>();
 
         for (String city : cities) {
@@ -21,7 +21,7 @@ public int solution(int cacheSize, String[] cities) {
 
             // 큐에 city가 존재할 경우 city를 제거하고 메모리 1을 추가
             if (queue.contains(city)) {
-                //해당 city 제거
+                //해당 city 제거 
                 queue.remove(city);
                 answer += 1;
             } else {
