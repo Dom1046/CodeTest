@@ -19,29 +19,40 @@ class Solution{
 
 
         for (int i = 0; i < m; i++) {
+            //다음 라운드 대진표
             List<Integer> nextRound = new ArrayList<>();
-            for (int j = 0; j < list.size()-1; j += 2) {
+            // 2씩 증가 시키기
+            for (int j = 0; j < list.size(); j += 2) {
+
+                //(1,2) (3,4) 대진붙이기
                 int p1 = list.get(j);
                 int p2 = list.get(j + 1);
+
+                //( 4,7 )만나면 break; 하기
                 if ((list.get(j) == a || list.get(j) == b) &&
                         (list.get(j + 1) == a || list.get(j + 1) == b)) {
                     index++;
                     break;
                 }
-
+                // a, b 무조건 이기게 하기
+                // a 혹은 b가 발견되면 다음라운드 진출
                 if (list.get(j) == a || list.get(j) == b) {
                     nextRound.add(p1);
                 } else if (list.get(j + 1) == a || list.get(j + 1) == b) {
                     nextRound.add(p2);
+                    //둘다 해당안되면 아무나 다음라운드 진출시키기
                 }else nextRound.add(p1);
             }
+            //다음 라운드로 list 교체시키기
             list = nextRound;
             if (index == 1) break;
             answer++;
         }
-        return answer+1;
+        //둘이 만났을 때 경기 횟수 1번 추가해주기
+        return answer + 1;
     }
 
+    //제곱근 구하기 (2보다 작으면 빠져나가기)
     public int getSquare(int n) {
         int cnt = 0;
         while (n > 1) {
