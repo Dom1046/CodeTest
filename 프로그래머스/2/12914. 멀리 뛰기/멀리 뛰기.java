@@ -1,17 +1,19 @@
+import java.math.BigInteger;
 class Solution {
     public long solution(int n) {
-        long answer = 0;
+        if (n == 1) return 1;
+        if (n == 2) return 2;
 
-        long[] fibo = new long[n + 2];
+        BigInteger prev = BigInteger.valueOf(1); // fib(1) = 1
+        BigInteger curr = BigInteger.valueOf(2); // fib(2) = 2
+        BigInteger mod = BigInteger.valueOf(1234567);
 
-        fibo[1] = 1;
-        fibo[2] = 2;
-
-        for (int i = 3; i <= n+1; i++) {
-            fibo[i] = (fibo[i - 1] + fibo[i - 2])%1234567;
+        for (int i = 3; i <= n; i++) {
+            BigInteger next = prev.add(curr);
+            prev = curr;
+            curr = next;
         }
 
-        answer = fibo[n];
-        return answer;
+        return curr.mod(mod).longValue(); // long 타입으로 변환하여 반환
     }
 }
