@@ -5,6 +5,7 @@
 ## Array
 |  |
 | ------- |
+| [0121-best-time-to-buy-and-sell-stock](https://github.com/Dom1046/CodeTest/tree/master/0121-best-time-to-buy-and-sell-stock) |
 | [1580-shuffle-the-array](https://github.com/Dom1046/CodeTest/tree/master/1580-shuffle-the-array) |
 ## Math
 |  |
@@ -15,4 +16,8 @@
 |  |
 | ------- |
 | [1920-determine-color-of-a-chessboard-square](https://github.com/Dom1046/CodeTest/tree/master/1920-determine-color-of-a-chessboard-square) |
+## Dynamic Programming
+|  |
+| ------- |
+| [0121-best-time-to-buy-and-sell-stock](https://github.com/Dom1046/CodeTest/tree/master/0121-best-time-to-buy-and-sell-stock) |
 <!---LeetCode Topics End-->
