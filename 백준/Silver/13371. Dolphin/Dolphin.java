@@ -1,50 +1,46 @@
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
+import java.io.IOException;
 
-// Dolphin
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-
+    public static void main(String[] args) throws IOException {
+        // BufferedReader를 사용하여 입력을 받음.
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine().trim());
         StringBuilder sb = new StringBuilder();
+        
         for (int t = 0; t < T; t++) {
-            long n = sc.nextLong();
-
-            // n번째 문구가 속하는 블록 k를 찾습니다.
-            // 누적 문구 수는 3*(k*(k+1)/2) 이므로, 이 값이 n 이상이 되는 최소의 k를 찾습니다.
-            long k = 1;
-            // k에 대한 대략의 범위를 근사 계산하기 위해 이차방정식 이용
-            // 3*k*(k+1)/2 >= n  -> k^2 + k - (2*n/3) >= 0
-            // 근의 공식을 이용해 근사값을 구합니다.
-            k = (long) Math.ceil((-1 + Math.sqrt(1 + 8.0 * n / 3)) / 2);
-            // 만약 계산된 k로 누적문구 수가 n 미만이면 k++.
-            while (3 * (k * (k + 1) / 2) < n) {
-                k++;
+            long n = Long.parseLong(br.readLine().trim());
+            
+            // k번째 그룹: 총 항의 개수는 3 * (1 + 2 + ... + k) = (3 * k * (k+1)) / 2
+            // n번째 항이 포함되는 최소의 k를 구합니다.
+            // 3k^2 + 3k - 2n >= 0 인 k의 최소 정수해는
+            // k = ceil((sqrt(9 + 24*n) - 3) / 6)
+            double d = Math.sqrt(9 + 24 * (double)n);
+            long k = (long) Math.ceil((d - 3) / 6);
+            
+            // k-1 그룹까지의 총 항의 개수
+            long prevSum = 3 * (k - 1) * k / 2;
+            long offset = n - prevSum;  // 현재 그룹 내의 위치 (1부터 3*k까지)
+            
+            // 결과 문자열을 구성합니다.
+            if (offset <= k) { // "k dolphin(s)" 구간
+                if (k == 1) {
+                    sb.append("1 dolphin");
+                } else {
+                    sb.append(k).append(" dolphins");
+                }
+            } else if (offset <= 2 * k) { // "k jump(s)" 구간
+                if (k == 1) {
+                    sb.append("1 jump");
+                } else {
+                    sb.append(k).append(" jumps");
+                }
+            } else { // "splash" 구간
+                sb.append("splash");
             }
-
-            // 이전 블록까지 누적 문구 수
-            long prevTotal = 3 * ((k - 1) * k / 2);
-            // 현재 블록 내에서의 위치 (1부터 시작)
-            long pos = n - prevTotal;
-
-            String result = "";
-            if (pos <= k) {
-                // dolphins 그룹
-                result = k + (k == 1 ? " dolphin" : " dolphins");
-            } else if (pos <= 2 * k) {
-                // jumps 그룹
-                result = k + (k == 1 ? " jump" : " jumps");
-            } else {
-                // splash 그룹
-                result = "splash";
-            }
-
-            sb.append(result).append("\n");
+            sb.append("\n");
         }
         System.out.print(sb);
-        sc.close();
     }
 }
