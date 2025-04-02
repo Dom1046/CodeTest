@@ -1,54 +1,45 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
-    public static boolean binarySearch(int[] listA, int target) {
-        int left = 0;
-        int right = listA.length - 1;
+    public static int playCardGame(int[] listA, int b) {
 
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-
-            if (listA[mid] == target) {
-                return true; 
-            } else if (listA[mid] < target) {
-                left = mid + 1; 
-            } else {
-                right = mid - 1; 
-            }
-        }
-        return false;
+        if (Arrays.binarySearch(listA, b) >= 0) {
+            return 1;
+        } else return 0;
     }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        int N = Integer.parseInt(br.readLine());
-        int[] listA = new int[N];
+        int num = Integer.parseInt(br.readLine());
+        int[] arrayA = new int[num];
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            listA[i] = Integer.parseInt(st.nextToken());
+        StringTokenizer tokenizer = new StringTokenizer(br.readLine());
+        for (int i = 0; i < num; i++) {
+            arrayA[i] = Integer.parseInt(tokenizer.nextToken());
         }
 
-        Arrays.sort(listA);
+        Arrays.sort(arrayA);
 
         int M = Integer.parseInt(br.readLine());
         int[] listB = new int[M];
 
-        st = new StringTokenizer(br.readLine());
+        tokenizer = new StringTokenizer(br.readLine());
         for (int i = 0; i < M; i++) {
-            listB[i] = Integer.parseInt(st.nextToken());
+            listB[i] = Integer.parseInt(tokenizer.nextToken());
         }
 
         StringBuilder sb = new StringBuilder();
         for (int target : listB) {
-            sb.append(binarySearch(listA, target) ? "1 " : "0 ");
+            sb.append(playCardGame(arrayA, target)).append(" ");
         }
-        System.out.println(sb.toString().trim()); 
+
+        System.out.println(sb);
+        br.close();
     }
 }
+
